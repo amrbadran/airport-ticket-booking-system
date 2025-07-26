@@ -4,6 +4,10 @@ namespace airport_ticket_booking_system.models;
 
 public class Flight
 {
+    private static int _nextId = 1;
+
+    public int Id { get; } = _nextId++;
+
     public double Price { get; set; }
 
     public string DepartureCountry { get; set; }
