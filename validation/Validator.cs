@@ -1,4 +1,5 @@
 using System.Reflection;
+using System.Text;
 using airport_ticket_booking_system.validation.attributes;
 
 namespace airport_ticket_booking_system.validation;
@@ -18,13 +19,23 @@ public class Validator
             var valOfProp = prop.GetValue(obj);
             var attrs = prop.GetCustomAttributes<ValidationAttribute>();
 
+            var str = new StringBuilder();
+            str.AppendLine($"{prop.Name}");
+            str.AppendLine($"\t Type: {prop.GetType()}");
+            str.Append($"\t Constraints: ");
+
+            bool isValidProp = false;
             foreach (var attr in attrs)
             {
                 if (!attr.isValid(valOfProp))
                 {
-                    errors.Add(attr.ErrorMessage());
+                    isValidProp = true;
+                    str.Append(attr.ErrorMessage() + ",");
                 }
             }
+
+            if (isValidProp)
+                errors.Add(str.ToString());
         }
 
         return errors;
