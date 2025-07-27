@@ -37,4 +37,19 @@ public static class BookingService
 
         await bookingRepo.SaveAll(bookingList);
     }
+
+    public static async Task ModifyBooking(int passengerId, int flightId, FlightClassEnum flightClass)
+    {
+        var bookingList = bookingRepo.GetAllItems().ToList();
+
+        var bookingToModify = bookingList
+            .FirstOrDefault(b => b.PassengerBooked == passengerId && b.FlightBooked == flightId);
+
+        if (bookingToModify != null)
+        {
+            bookingToModify.FlightClass = flightClass;
+            await bookingRepo.SaveAll(bookingList);
+        }
+    }
+
 }
