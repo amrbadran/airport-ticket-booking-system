@@ -46,9 +46,10 @@ do
         switch (choice)
         {
             case EnumManagerChoice.ImportFlights:
+                await m.UploadFlights();
                 break;
             case EnumManagerChoice.FilterBooking:
-                m.FilterBooking();      
+                m.FilterBooking();
                 break;
         }
     }
