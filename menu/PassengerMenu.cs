@@ -1,3 +1,6 @@
+using airport_ticket_booking_system.models;
+using airport_ticket_booking_system.models.enums;
+using airport_ticket_booking_system.services.booking;
 using airport_ticket_booking_system.services.filter;
 
 namespace airport_ticket_booking_system.menu;
@@ -79,10 +82,39 @@ public class PassengerMenu
 
     public void ShowYourBookings(int passengerId)
     {
+        var bookings = BookingService.GetAllBooking(passengerId);
+        var flights = FilterFlightService.GetAllFlights();
+        var bookingAndFlights = bookings.Join(flights,
+            b => b.FlightBooked
+            , f => f.Id,
+            (booking, flight) =>
+                $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} " +
+                $"on {flight.DepartureDate:yyyy-MM-dd} with class {booking.FlightClass} " +
+                $"Total Price:{(double)(booking.FlightClass + 1) * flight.Price}");
+
+        foreach (var bookingAndFlight in bookingAndFlights)
+        {
+            Console.WriteLine(bookingAndFlight);
+        }
     }
 
-    public void BookFlight(int passengerId)
+    public async Task BookFlight(int passengerId)
     {
-        
+        Console.Write("Flight Id: ");
+        int flightId = int.Parse(Console.ReadLine());
+        Flight? f = FilterFlightService.GetFlightById(flightId);
+
+        if (f != null)
+        {
+            Console.WriteLine($"Price For Economy {f.Price}, Business {f.Price * 2}, First Class {f.Price * 3}");
+            Console.Write("Flight Class: (Economy 0, Business 1, First Class 2) ");
+            FlightClassEnum flightClass = (FlightClassEnum)int.Parse(Console.ReadLine());
+
+            await BookingService.BookFlight(passengerId, flightId, flightClass);
+        }
+        else
+        {
+            Console.WriteLine("No Flight With this id");
+        }
     }
 }

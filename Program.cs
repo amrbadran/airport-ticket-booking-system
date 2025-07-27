@@ -1,15 +1,16 @@
 ﻿using airport_ticket_booking_system.menu;
+using airport_ticket_booking_system.models;
 using airport_ticket_booking_system.services.auth;
 
+Console.Write("Username : ");
+string username = Console.ReadLine();
+Console.Write("Password : ");
+string password = Console.ReadLine();
+
+var loginManager = new AuthService().LoginManager(username, password);
+var loginPassenger = new AuthService().LoginPassenger(username, password);
 do
 {
-    Console.Write("Username : ");
-    string username = Console.ReadLine();
-    Console.Write("Password : ");
-    string password = Console.ReadLine();
-
-    bool loginManager = new AuthService().LoginManager(username, password);
-    var loginPassenger = new AuthService().LoginPassenger(username, password);
     if (loginPassenger != null)
     {
         var p = new PassengerMenu();
@@ -27,7 +28,7 @@ do
                 p.ShowYourBookings(loginPassenger.Id);
                 break;
             case EnumPassengerChoice.BookFlight:
-                p.BookFlight(loginPassenger.Id);
+                await p.BookFlight(loginPassenger.Id);
                 break;
         }
     }
