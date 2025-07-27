@@ -6,9 +6,10 @@ namespace airport_ticket_booking_system.services.booking;
 
 public static class BookingService
 {
+    private static ModelRepository<Booking> bookingRepo = new ModelRepository<Booking>(new Booking());
     public static async Task BookFlight(int passengerId, int flightId, FlightClassEnum flightClass)
     {
-        var bookingRepo = new ModelRepository<Booking>(new Booking());
+        
         var bookingList = bookingRepo.GetAllItems().ToList();
         
         bookingList.Add(new Booking()
@@ -19,5 +20,12 @@ public static class BookingService
         });
 
         await bookingRepo.SaveAll(bookingList);
+    }
+
+    public static List<Booking> GetAllBooking(int passengerId)
+    {
+        var bookingList = bookingRepo.GetAllItems()
+            .Where(b => b.PassengerBooked == passengerId).ToList();
+        return bookingList;
     }
 }
