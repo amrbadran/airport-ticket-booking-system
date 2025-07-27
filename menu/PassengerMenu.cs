@@ -120,11 +120,37 @@ public class PassengerMenu
 
     public async Task CancelBooking(int passengerId)
     {
-        
+        Console.Write("Flight Id: ");
+        int flightId = int.Parse(Console.ReadLine());
+        Flight? f = FilterFlightService.GetFlightById(flightId);
+
+        if (f != null)
+        {
+            await BookingService.CancelBooking(passengerId, flightId);
+        }
+        else
+        {
+            Console.WriteLine("No Flight With this id");
+        }
     }
 
     public async Task ModifyBooking(int passengerId)
     {
-        
+        Console.Write("Flight Id (To Update): ");
+        int flightId = int.Parse(Console.ReadLine());
+        Flight? f = FilterFlightService.GetFlightById(flightId);
+
+        if (f != null)
+        {
+            Console.WriteLine($"Price For Economy {f.Price}, Business {f.Price * 2}, First Class {f.Price * 3}");
+            Console.Write("Flight Class: (Economy 0, Business 1, First Class 2) ");
+            FlightClassEnum flightClass = (FlightClassEnum)int.Parse(Console.ReadLine());
+
+            await BookingService.ModifyBooking(passengerId, flightId, flightClass);
+        }
+        else
+        {
+            Console.WriteLine("No Flight With this id");
+        }
     }
 }
