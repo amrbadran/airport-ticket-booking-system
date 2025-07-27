@@ -4,9 +4,8 @@ namespace airport_ticket_booking_system.models;
 
 public class Flight
 {
-    private static int _nextId = 1;
 
-    public int Id { get; } = _nextId++;
+    public int Id { get;}
 
     public double Price { get; set; }
 
@@ -16,9 +15,23 @@ public class Flight
 
     public DateTime DepartureDate { get; set; }
 
-    public Airport DepartureAirport { get; set; }
+    public int DepartureAirportId { get; set; }
 
-    public Airport ArrivalAirport { get; set; }
+    public int ArrivalAirportId { get; set; }
 
-    public FlightClassEnum FlighClass { get; set; }
+    public override bool Equals(object? obj)
+    {
+        return obj is Flight f && f.Id == this.Id;
+    }
+
+    public override int GetHashCode()
+    {
+        return this.Id.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return
+            $"{Id},{Price},{DepartureCountry},{DestinationCountry},{DepartureDate},{DepartureAirportId},{DepartureAirportId}";
+    }
 }

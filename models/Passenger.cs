@@ -4,15 +4,31 @@ namespace airport_ticket_booking_system.models;
 
 public class Passenger
 {
-    private static int _nextId = 1; 
-    public required int Id { get; init; }
-    public required string Username { get; set; }
+    public int Id { get; }
+    public string Username { get; set; }
+
+    public string Password { get; set; }
 
     [SetsRequiredMembers]
-    public Passenger(string username)
+    public Passenger(int id, string username, string password)
     {
-        this.Id = _nextId++;
+        this.Id = id;
         this.Username = username;
+        this.Password = password;
     }
-    
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Passenger p && p.Id == this.Id;
+    }
+
+    public override int GetHashCode()
+    {
+        return this.Id.GetHashCode();
+    }
+
+    public override string ToString()
+    {
+        return $"{this.Id},{this.Username},{this.Password}";
+    }
 }
