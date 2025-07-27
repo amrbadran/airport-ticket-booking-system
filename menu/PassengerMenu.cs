@@ -65,11 +65,16 @@ public class PassengerMenu
         {
             Console.WriteLine("No flights matched your filters.");
         }
-
     }
 
     public void ShowAllFlights()
     {
+        var flights = FilterFlightService.GetAllFlights();
+        foreach (var flight in flights)
+        {
+            Console.WriteLine(
+                $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} on {flight.DepartureDate:yyyy-MM-dd}");
+        }
     }
 
     public void ShowYourBookings(int passengerId)
@@ -78,7 +83,5 @@ public class PassengerMenu
 
     public void BookFlight(int passengerId)
     {
-
     }
-
 }

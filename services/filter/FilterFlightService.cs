@@ -28,4 +28,11 @@ public static class FilterFlightService
 
         return filtered;
     }
+
+    public static List<Flight> GetAllFlights()
+    {
+        var flightsRepo = new ModelRepository<Flight>(new Flight());
+        var listOfFlights = flightsRepo.GetAllItems().ToList();
+        return listOfFlights;
+    }
 }
