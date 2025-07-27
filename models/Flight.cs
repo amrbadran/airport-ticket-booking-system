@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using airport_ticket_booking_system.models.enums;
 using airport_ticket_booking_system.models.validation;
 
 namespace airport_ticket_booking_system.models;
 
-public class Flight :IModel
+public class Flight : IModel
 {
     [Key]
     [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
@@ -36,7 +37,7 @@ public class Flight :IModel
     public override string ToString()
     {
         return
-            $"{Id},{Price},{DepartureCountry},{DestinationCountry},{DepartureDate},{DepartureAirportId},{ArrivalAirportId}";
+            $"{Id},{Price},{DepartureCountry},{DestinationCountry},{DepartureDate.ToString("yyyy-MM-dd")},{DepartureAirportId},{ArrivalAirportId}";
     }
 
     public IModel FromString(string line)
@@ -49,7 +50,7 @@ public class Flight :IModel
             Price = double.Parse(items[1]),
             DepartureCountry = items[2],
             DestinationCountry = items[3],
-            DepartureDate = DateTime.Parse(items[4]),
+            DepartureDate = DateTime.ParseExact(items[4], "yyyy-MM-dd",null),
             DepartureAirportId = int.Parse(items[5]),
             ArrivalAirportId = int.Parse(items[6])
         };
