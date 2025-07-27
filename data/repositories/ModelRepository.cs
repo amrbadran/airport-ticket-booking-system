@@ -5,29 +5,36 @@ namespace airport_ticket_booking_system.data.repositories;
 
 public class ModelRepository<T>
 {
-    private IEnumerable<T> _items = new List<T>();
+    private static IEnumerable<T> _items;
 
     private string _projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
     private string _path;
 
     private IModel Item;
+
     public ModelRepository(IModel item)
     {
+        _items = new HashSet<T>();
         Item = item;
         _path = Path.Combine(_projectRoot, "files", DeterminePath());
     }
-    
+
     public IEnumerable<T> GetAllItems()
     {
         _items = new CsvFileService(_path, Item).GetAll().Select(model => (T)model);
         return _items;
     }
 
-    public async Task SaveAll(IEnumerable<Flight> flights)
+    public async Task SaveAll(IEnumerable<IModel> items)
     {
-        await new CsvFileService(_path, new Flight()).WriteAllAsync(flights);
+        await new CsvFileService(_path, Item).WriteAllAsync(items);
     }
-
+     
+    public IEnumerable<T> GetCurrentItemList()
+    {
+        return _items;
+    }
+    
     private string DeterminePath()
     {
         if (typeof(T) == typeof(Flight))
@@ -49,5 +56,4 @@ public class ModelRepository<T>
 
         return "";
     }
-    
 }
