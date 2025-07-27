@@ -35,4 +35,15 @@ public static class FilterFlightService
         var listOfFlights = flightsRepo.GetAllItems().ToList();
         return listOfFlights;
     }
+
+    public static Flight? GetFlightById(int id)
+    {
+        var flightsRepo = new ModelRepository<Flight>(new Flight());
+        var listOfFlights = flightsRepo.GetAllItems().ToList();
+
+        return listOfFlights.FirstOrDefault(flight => flight.Id == id);
+    }
+
+    
+    
 }
