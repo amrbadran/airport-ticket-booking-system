@@ -1,11 +1,14 @@
 using airport_ticket_booking_system.models.enums;
-
+using System.ComponentModel.DataAnnotations;
 namespace airport_ticket_booking_system.models;
 
 public class Booking
 {
-    public int FlightBooked { get; set; }
 
+    [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
+    public int FlightBooked { get; set; }
+    
+    [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
     public int PassengerBooked { get; set; }
 
     public FlightClassEnum FlightClass { get; set; }

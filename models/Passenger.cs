@@ -1,12 +1,17 @@
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
 namespace airport_ticket_booking_system.models;
 
 public class Passenger
 {
+    [Key]
+    [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
     public int Id { get; }
+    [StringLength(20, MinimumLength = 1, ErrorMessage = "Username must be within 1 and 20 chars")]
     public string Username { get; set; }
 
+    [StringLength(20, MinimumLength = 1, ErrorMessage = "password must be within 1 and 20 chars")]
     public string Password { get; set; }
 
     [SetsRequiredMembers]
