@@ -1,22 +1,69 @@
-﻿// See https://aka.ms/new-console-template for more information
-
+﻿using airport_ticket_booking_system.menu;
 using airport_ticket_booking_system.models;
-using airport_ticket_booking_system.models.enums;
-using airport_ticket_booking_system.validation;
+using airport_ticket_booking_system.services.auth;
 
-Console.WriteLine("Hello, World!");
+Console.Write("Username : ");
+string username = Console.ReadLine();
+Console.Write("Password : ");
+string password = Console.ReadLine();
 
-Flight f = new Flight()
+var loginManager = new AuthService().LoginManager(username, password);
+var loginPassenger = new AuthService().LoginPassenger(username, password);
+do
 {
-    Price = 13.4,
-    ArrivalAirport = null,
-    DepartureAirport = null,
-    DepartureCountry = "Spain",
-    DepartureDate = new DateTime(2024, 12, 13),
-    DestinationCountry = "Dubai",
-    FlighClass = FlightClassEnum.Business
-};
+    if (loginPassenger != null)
+    {
+        var p = new PassengerMenu();
+        p.Welcome();
+        EnumPassengerChoice choice = (EnumPassengerChoice)int.Parse(Console.ReadLine());
+        switch (choice)
+        {
+            case EnumPassengerChoice.FilterFlights:
+                p.FilterFlights();
+                break;
+            case EnumPassengerChoice.ShowAllFlights:
+                p.ShowAllFlights();
+                break;
+            case EnumPassengerChoice.ShowBooking:
+                p.ShowYourBookings(loginPassenger.Id);
+                break;
+            case EnumPassengerChoice.BookFlight:
+                await p.BookFlight(loginPassenger.Id);
+                break;
+            case EnumPassengerChoice.CancelBooking:
+                await p.CancelBooking(loginPassenger.Id);
+                break;
+            case EnumPassengerChoice.ModifyBooking:
+                await p.ModifyBooking(loginPassenger.Id);
+                break;
+        }
+    }
+    else if (loginManager)
+    {
+        var m = new ManagerMenu();
+        m.Welcome();
+        EnumManagerChoice choice = (EnumManagerChoice)int.Parse(Console.ReadLine());
+        switch (choice)
+        {
+            case EnumManagerChoice.ImportFlights:
+                await m.UploadFlights();
+                break;
+            case EnumManagerChoice.FilterBooking:
+                m.FilterBooking();
+                break;
+        }
+    }
+    else
+    {
+        Console.WriteLine("Retry");
+    }
+} while (true);
 
-var list = Validator.Validate(f);
+void PrintWelcome()
+{
+    Console.WriteLine("""
 
-list.ForEach(m => Console.WriteLine(m));
+                      ** Welcome To Airport Ticket Booking System **
+                      ===================================================
+                      """);
+}
