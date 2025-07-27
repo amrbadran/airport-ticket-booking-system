@@ -117,4 +117,14 @@ public class PassengerMenu
             Console.WriteLine("No Flight With this id");
         }
     }
+
+    public async Task CancelBooking(int passengerId)
+    {
+        
+    }
+
+    public async Task ModifyBooking(int passengerId)
+    {
+        
+    }
 }

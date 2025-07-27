@@ -30,6 +30,12 @@ do
             case EnumPassengerChoice.BookFlight:
                 await p.BookFlight(loginPassenger.Id);
                 break;
+            case EnumPassengerChoice.CancelBooking:
+                await p.CancelBooking(loginPassenger.Id);
+                break;
+            case EnumPassengerChoice.ModifyBooking:
+                await p.ModifyBooking(loginPassenger.Id);
+                break;
         }
     }
     else if (loginManager)
