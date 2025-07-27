@@ -16,6 +16,8 @@ do
     else if (LoginPassenger)
     {
         Console.WriteLine("Weclome To passenger page");
+        
+        
     }
     else
     {
@@ -29,5 +31,15 @@ void PrintWelcome()
 
                       ** Welcome To Airport Ticket Booking System **
                       ===================================================
+                      """);
+}
+
+void PrintWelcomePassenger()
+{
+    Console.WriteLine("""
+                        1.Filter Flights
+                        2.Show All Flights
+                        3.Show Your Booking
+                        4.Book Flight
                       """);
 }
