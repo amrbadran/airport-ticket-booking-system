@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using airport_ticket_booking_system.models.validation;
 
 namespace airport_ticket_booking_system.models;
 
-public class Passenger
+public class Passenger : IModel
 {
     [Key]
     [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
@@ -35,5 +36,16 @@ public class Passenger
     public override string ToString()
     {
         return $"{this.Id},{this.Username},{this.Password}";
+    }
+
+    public IModel FromString(string line)
+    {
+        string[] items = line.Split(',');
+
+        Passenger p = new Passenger(int.Parse(items[0]),items[1],items[2]);
+        
+        ValidationHelper.ValidateObjectOrThrow(p);
+
+        return p;
     }
 }

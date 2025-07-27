@@ -8,4 +8,9 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="data\handlers\" />
+      <Folder Include="data\mappers\" />
+    </ItemGroup>
+
 </Project>
