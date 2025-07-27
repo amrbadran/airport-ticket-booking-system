@@ -12,11 +12,11 @@ public class ModelRepository<T>
 
     private IModel Item;
 
-    public ModelRepository(IModel item)
+    public ModelRepository(IModel item, string? filename = null)
     {
         _items = new HashSet<T>();
         Item = item;
-        _path = Path.Combine(_projectRoot, "files", DeterminePath());
+        _path = Path.Combine(_projectRoot, "files", filename ?? DeterminePath());
     }
 
     public IEnumerable<T> GetAllItems()
@@ -29,12 +29,12 @@ public class ModelRepository<T>
     {
         await new CsvFileService(_path, Item).WriteAllAsync(items);
     }
-     
+
     public IEnumerable<T> GetCurrentItemList()
     {
         return _items;
     }
-    
+
     private string DeterminePath()
     {
         if (typeof(T) == typeof(Flight))
