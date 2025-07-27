@@ -40,14 +40,15 @@ do
     }
     else if (loginManager)
     {
-        var p = new ManagerMenu();
-        p.Welcome();
+        var m = new ManagerMenu();
+        m.Welcome();
         EnumManagerChoice choice = (EnumManagerChoice)int.Parse(Console.ReadLine());
         switch (choice)
         {
             case EnumManagerChoice.ImportFlights:
                 break;
             case EnumManagerChoice.FilterBooking:
+                m.FilterBooking();      
                 break;
         }
     }
