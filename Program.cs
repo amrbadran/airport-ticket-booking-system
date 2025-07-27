@@ -18,12 +18,16 @@ do
         switch (choice)
         {
             case EnumPassengerChoice.FilterFlights:
+                p.FilterFlights();
                 break;
             case EnumPassengerChoice.ShowAllFlights:
+                p.ShowAllFlights();
                 break;
             case EnumPassengerChoice.ShowBooking:
+                p.ShowYourBookings(loginPassenger.Id);
                 break;
             case EnumPassengerChoice.BookFlight:
+                p.BookFlight(loginPassenger.Id);
                 break;
         }
     }

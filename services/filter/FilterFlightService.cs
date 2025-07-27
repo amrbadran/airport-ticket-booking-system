@@ -11,7 +11,7 @@ public static class FilterFlightService
         string? arrivalCountry,
         int? departAirportId,
         int? arrivalAirportId,
-        DateTime? departDate // changed to nullable
+        DateTime? departDate
     )
     {
         var flightsRepo = new ModelRepository<Flight>(new Flight());
