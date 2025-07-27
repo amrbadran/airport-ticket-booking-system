@@ -9,6 +9,7 @@ public class Passenger : IModel
     [Key]
     [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
     public int Id { get; }
+
     [StringLength(20, MinimumLength = 1, ErrorMessage = "Username must be within 1 and 20 chars")]
     public string Username { get; set; }
 
@@ -21,6 +22,10 @@ public class Passenger : IModel
         this.Id = id;
         this.Username = username;
         this.Password = password;
+    }
+
+    public Passenger()
+    {
     }
 
     public override bool Equals(object? obj)
@@ -42,8 +47,8 @@ public class Passenger : IModel
     {
         string[] items = line.Split(',');
 
-        Passenger p = new Passenger(int.Parse(items[0]),items[1],items[2]);
-        
+        Passenger p = new Passenger(int.Parse(items[0]), items[1], items[2]);
+
         ValidationHelper.ValidateObjectOrThrow(p);
 
         return p;
