@@ -1,4 +1,5 @@
-﻿using airport_ticket_booking_system.services.auth;
+﻿using airport_ticket_booking_system.menu;
+using airport_ticket_booking_system.services.auth;
 
 do
 {
@@ -7,17 +8,37 @@ do
     Console.Write("Password : ");
     string password = Console.ReadLine();
 
-    bool LoginManager = new AuthService().LoginManager(username, password);
-    bool LoginPassenger = new AuthService().LoginPassenger(username, password);
-    if (LoginManager)
+    bool loginManager = new AuthService().LoginManager(username, password);
+    var loginPassenger = new AuthService().LoginPassenger(username, password);
+    if (loginPassenger != null)
     {
-        Console.WriteLine("Welcome To Manager Page");
+        var p = new PassengerMenu();
+        p.Welcome();
+        EnumPassengerChoice choice = (EnumPassengerChoice)int.Parse(Console.ReadLine());
+        switch (choice)
+        {
+            case EnumPassengerChoice.FilterFlights:
+                break;
+            case EnumPassengerChoice.ShowAllFlights:
+                break;
+            case EnumPassengerChoice.ShowBooking:
+                break;
+            case EnumPassengerChoice.BookFlight:
+                break;
+        }
     }
-    else if (LoginPassenger)
+    else if (loginManager)
     {
-        Console.WriteLine("Weclome To passenger page");
-        
-        
+        var p = new ManagerMenu();
+        p.Welcome();
+        EnumManagerChoice choice = (EnumManagerChoice)int.Parse(Console.ReadLine());
+        switch (choice)
+        {
+            case EnumManagerChoice.ImportFlights:
+                break;
+            case EnumManagerChoice.FilterBooking:
+                break;
+        }
     }
     else
     {
@@ -31,15 +52,5 @@ void PrintWelcome()
 
                       ** Welcome To Airport Ticket Booking System **
                       ===================================================
-                      """);
-}
-
-void PrintWelcomePassenger()
-{
-    Console.WriteLine("""
-                        1.Filter Flights
-                        2.Show All Flights
-                        3.Show Your Booking
-                        4.Book Flight
                       """);
 }

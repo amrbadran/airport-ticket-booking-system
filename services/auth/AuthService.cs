@@ -17,10 +17,16 @@ public class AuthService
             .Count(m => m.Key == username && m.Value == password) > 0;
     }
 
-    public bool LoginPassenger(string username, string password)
+    public Passenger? LoginPassenger(string username, string password)
     {
         var listOfPassengers = new ModelRepository<Passenger>(new Passenger())
             .GetAllItems().ToList();
-        return listOfPassengers.Count(p => p.Username == username && p.Password == password) > 0;
+        var matches = listOfPassengers
+            .Where(p => p.Username == username && p.Password == password)
+            .Take(2)
+            .ToList();
+
+        return matches.Count == 1 ? matches[0] : null;
+
     }
 }
