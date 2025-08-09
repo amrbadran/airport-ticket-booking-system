@@ -1,4 +1,5 @@
 using airport_ticket_booking_system.models;
+using airport_ticket_booking_system.models.DTO;
 using airport_ticket_booking_system.models.enums;
 using airport_ticket_booking_system.services.booking;
 using airport_ticket_booking_system.services.filter;
@@ -25,21 +26,15 @@ public class PassengerMenu
     /// </summary>
     public void FilterFlights()
     {
-        var price = Reader.ReadNullableDouble("Price (leave empty if not important): ");
-        var departCountry = Reader.ReadNullableString("Departure Country (leave empty if not important): ");
-        var arrivalCountry = Reader.ReadNullableString("Arrival Country (leave empty if not important): ");
-        var departAirportId = Reader.ReadNullableInt("Departure Airport ID (leave empty if not important): ");
-        var arrivalAirportId = Reader.ReadNullableInt("Arrival Airport ID (leave empty if not important): ");
-        var departDate = Reader.ReadNullableDate("Departure Date (yyyy-MM-dd) (leave empty if not important): ");
-
-
         var filteredFlights = FilterFlightService.FilterFlights(
-            price,
-            departCountry,
-            arrivalCountry,
-            departAirportId,
-            arrivalAirportId,
-            departDate
+            new FlightFilter(
+                Price: Reader.ReadNullableDouble("Price (leave empty if not important): "),
+                DepartCountry: Reader.ReadNullableString("Departure Country (leave empty if not important): "),
+                ArrivalCountry: Reader.ReadNullableString("Arrival Country (leave empty if not important): "),
+                DepartAirportId: Reader.ReadNullableInt("Departure Airport ID (leave empty if not important): "),
+                ArrivalAirportId: Reader.ReadNullableInt("Arrival Airport ID (leave empty if not important): "),
+                DepartDate: Reader.ReadNullableDate("Departure Date (yyyy-MM-dd) (leave empty if not important): ")
+            )
         );
 
         if (filteredFlights.Any())

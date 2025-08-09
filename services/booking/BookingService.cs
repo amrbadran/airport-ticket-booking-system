@@ -4,6 +4,9 @@ using airport_ticket_booking_system.models.enums;
 
 namespace airport_ticket_booking_system.services.booking;
 
+/// <summary>
+/// Booking Service Class Handles CRUD Operations for Bookings.
+/// </summary>
 public static class BookingService
 {
     private static ModelRepository<Booking> bookingRepo = new ModelRepository<Booking>(new Booking());
@@ -24,9 +27,10 @@ public static class BookingService
 
     public static List<Booking> GetAllBooking(int passengerId)
     {
-        var bookingList = bookingRepo.GetAllItems()
-            .Where(b => b.PassengerBooked == passengerId).ToList();
-        return bookingList;
+        return bookingRepo
+            .GetAllItems()
+            .Where(b => b.PassengerBooked == passengerId)
+            .ToList();
     }
 
     public static async Task CancelBooking(int passengerId, int flightId)
@@ -51,5 +55,4 @@ public static class BookingService
             await bookingRepo.SaveAll(bookingList);
         }
     }
-
 }

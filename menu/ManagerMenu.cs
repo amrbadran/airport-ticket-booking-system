@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using airport_ticket_booking_system.models.DTO;
 using airport_ticket_booking_system.models.enums;
 using airport_ticket_booking_system.services.filter;
 using airport_ticket_booking_system.services.uploading;
@@ -22,24 +23,20 @@ public class ManagerMenu
     public void FilterBooking()
     {
         var flightId = Reader.ReadNullableInt("Flight ID (leave empty if not important): ");
-        var price = Reader.ReadNullableDouble("Price (leave empty if not important): ");
-        var departCountry = Reader.ReadNullableString("Departure Country (leave empty if not important): ");
-        var arrivalCountry = Reader.ReadNullableString("Arrival Country (leave empty if not important): ");
-        var departAirportId = Reader.ReadNullableInt("Departure Airport ID (leave empty if not important): ");
-        var arrivalAirportId = Reader.ReadNullableInt("Arrival Airport ID (leave empty if not important): ");
-        var departDate = Reader.ReadNullableDate("Departure Date (yyyy-MM-dd) (leave empty if not important): ");
         var passengerId = Reader.ReadNullableInt("Passenger ID (leave empty if not important): ");
         var flightClass = Reader.ReadNullableFlightClass(
             "Flight Class (Economy (0), Business (1), First (2)) (leave empty if not important): ");
 
         var filteredResults = BookingFilterService.FilterJoinedData(
             flightId,
-            price,
-            departCountry,
-            arrivalCountry,
-            departAirportId,
-            arrivalAirportId,
-            departDate,
+            new FlightFilter(
+                Price: Reader.ReadNullableDouble("Price (leave empty if not important): "),
+                DepartCountry: Reader.ReadNullableString("Departure Country (leave empty if not important): "),
+                ArrivalCountry: Reader.ReadNullableString("Arrival Country (leave empty if not important): "),
+                DepartAirportId: Reader.ReadNullableInt("Departure Airport ID (leave empty if not important): "),
+                ArrivalAirportId: Reader.ReadNullableInt("Arrival Airport ID (leave empty if not important): "),
+                DepartDate: Reader.ReadNullableDate("Departure Date (yyyy-MM-dd) (leave empty if not important): ")
+            ),
             passengerId,
             flightClass
         );

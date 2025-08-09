@@ -17,8 +17,7 @@ public static class FilterFlightService
     /// <returns></returns>
     public static List<Flight> FilterFlights(FlightFilter filter)
     {
-        var flightsRepo = new ModelRepository<Flight>(new Flight());
-        var query = flightsRepo.GetAllItems();
+        var query = _flightsRepo.GetAllItems();
 
         var predicates = filter.GetPredicates();
 
