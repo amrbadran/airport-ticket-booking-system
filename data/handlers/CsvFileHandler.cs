@@ -16,7 +16,12 @@ public class CsvFileService : IFileHandler
         Model = model;
         Header = File.ReadLines(Filepath).Take(1).ToList()[0];
     }
-
+    
+    /// <summary>
+    /// This Function For Getting all lines from a file
+    /// May Throws An NotFoundFileException
+    /// </summary>
+    /// <returns></returns>
     public IEnumerable<IModel> GetAll()
     {
         return File.ReadAllLines(Filepath)
@@ -24,6 +29,11 @@ public class CsvFileService : IFileHandler
             .Select((item) => Model.FromString(item));
     }
 
+    /// <summary>
+    /// This Function For writing all lines to a file
+    /// May Throws An NotFoundFileException
+    /// </summary>
+    /// <returns></returns>
     public async Task WriteAllAsync(IEnumerable<IModel> items)
     {
         var csvLines = items.Select(entity => entity.ToString());

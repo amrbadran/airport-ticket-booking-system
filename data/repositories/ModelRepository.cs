@@ -1,58 +1,35 @@
 using airport_ticket_booking_system.data.handlers;
 using airport_ticket_booking_system.models;
+using airport_ticket_booking_system.utils;
 
 namespace airport_ticket_booking_system.data.repositories;
 
 public class ModelRepository<T>
 {
-    private static IEnumerable<T> _items;
-
-    private string _projectRoot = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", ".."));
     private string _path;
 
-    private IModel Item;
+    private IModel _item;
 
     public ModelRepository(IModel item, string? filename = null)
     {
-        _items = new HashSet<T>();
-        Item = item;
-        _path = Path.Combine(_projectRoot, "files", filename ?? DeterminePath());
+        _item = item;
+        _path = Path.Combine(Constants.ProjectRoot, "files", filename ?? DeterminePath());
     }
 
     public IEnumerable<T> GetAllItems()
     {
-        _items = new CsvFileService(_path, Item).GetAll().Select(model => (T)model);
-        return _items;
+        return new CsvFileService(_path, _item).GetAll().Select(model => (T)model);
     }
 
     public async Task SaveAll(IEnumerable<IModel> items)
     {
-        await new CsvFileService(_path, Item).WriteAllAsync(items);
-    }
-
-    public IEnumerable<T> GetCurrentItemList()
-    {
-        return _items;
+        await new CsvFileService(_path, _item).WriteAllAsync(items);
     }
 
     private string DeterminePath()
     {
-        if (typeof(T) == typeof(Flight))
-        {
-            return "Flights.csv";
-        }
-        else if (typeof(T) == typeof(Booking))
-        {
-            return "Bookings.csv";
-        }
-        else if (typeof(T) == typeof(Passenger))
-        {
-            return "Passengers.csv";
-        }
-        else if (typeof(T) == typeof(Airport))
-        {
-            return "Airports.csv";
-        }
+        if (Constants.TypePathMap.TryGetValue(typeof(T), out var path))
+            return path;
 
         return "";
     }
