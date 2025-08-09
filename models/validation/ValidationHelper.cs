@@ -12,6 +12,6 @@ public static class ValidationHelper
 
         var errors = results.SelectMany(vr => vr.MemberNames.Select(mn => $"{mn}: {vr.ErrorMessage}"));
         var message = string.Join("\n", errors);
-        throw new ValidationException($"Validation failed: \n{message}");
+        throw new ValidationException($"Validation failed: {obj} \n{message}");
     }
 }
