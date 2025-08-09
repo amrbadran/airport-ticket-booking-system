@@ -16,48 +16,21 @@ public class ManagerMenu
                           """);
     }
 
+    /// <summary>
+    /// This Menu Function for manager to filter all bookings in system based on parameters
+    /// </summary>
     public void FilterBooking()
     {
-        Console.Write("Flight ID (leave empty if not important): ");
-        string flightIdInput = Console.ReadLine();
-        int? flightId = string.IsNullOrWhiteSpace(flightIdInput) ? null : int.Parse(flightIdInput);
-
-        Console.Write("Price (leave empty if not important): ");
-        string priceInput = Console.ReadLine();
-        double? price = string.IsNullOrWhiteSpace(priceInput) ? null : double.Parse(priceInput);
-
-        Console.Write("Departure Country (leave empty if not important): ");
-        string departCountryInput = Console.ReadLine();
-        string? departCountry = string.IsNullOrWhiteSpace(departCountryInput) ? null : departCountryInput;
-
-        Console.Write("Arrival Country (leave empty if not important): ");
-        string arrivalCountryInput = Console.ReadLine();
-        string? arrivalCountry = string.IsNullOrWhiteSpace(arrivalCountryInput) ? null : arrivalCountryInput;
-
-        Console.Write("Departure Airport ID (leave empty if not important): ");
-        string departAirportIdInput = Console.ReadLine();
-        int? departAirportId = string.IsNullOrWhiteSpace(departAirportIdInput) ? null : int.Parse(departAirportIdInput);
-
-        Console.Write("Arrival Airport ID (leave empty if not important): ");
-        string arrivalAirportIdInput = Console.ReadLine();
-        int? arrivalAirportId =
-            string.IsNullOrWhiteSpace(arrivalAirportIdInput) ? null : int.Parse(arrivalAirportIdInput);
-
-        Console.Write("Departure Date (yyyy-MM-dd) (leave empty if not important): ");
-        string departDateInput = Console.ReadLine();
-        DateTime? departDate = string.IsNullOrWhiteSpace(departDateInput)
-            ? null
-            : DateTime.ParseExact(departDateInput, "yyyy-MM-dd", null);
-
-        Console.Write("Passenger ID (leave empty if not important): ");
-        string passengerIdInput = Console.ReadLine();
-        int? passengerId = string.IsNullOrWhiteSpace(passengerIdInput) ? null : int.Parse(passengerIdInput);
-
-        Console.Write("Flight Class (Economy (0), Business (1), First (2)) (leave empty if not important): ");
-        string flightClassInput = Console.ReadLine();
-        FlightClassEnum? flightClass = string.IsNullOrWhiteSpace(flightClassInput)
-            ? null
-            : (FlightClassEnum)int.Parse(flightClassInput);
+        var flightId = Reader.ReadNullableInt("Flight ID (leave empty if not important): ");
+        var price = Reader.ReadNullableDouble("Price (leave empty if not important): ");
+        var departCountry = Reader.ReadNullableString("Departure Country (leave empty if not important): ");
+        var arrivalCountry = Reader.ReadNullableString("Arrival Country (leave empty if not important): ");
+        var departAirportId = Reader.ReadNullableInt("Departure Airport ID (leave empty if not important): ");
+        var arrivalAirportId = Reader.ReadNullableInt("Arrival Airport ID (leave empty if not important): ");
+        var departDate = Reader.ReadNullableDate("Departure Date (yyyy-MM-dd) (leave empty if not important): ");
+        var passengerId = Reader.ReadNullableInt("Passenger ID (leave empty if not important): ");
+        var flightClass = Reader.ReadNullableFlightClass(
+            "Flight Class (Economy (0), Business (1), First (2)) (leave empty if not important): ");
 
         var filteredResults = BookingFilterService.FilterJoinedData(
             flightId,
@@ -71,16 +44,13 @@ public class ManagerMenu
             flightClass
         );
 
-        if (filteredResults.Count() > 0)
+        if (filteredResults.Any())
         {
             Console.WriteLine("Filtered Bookings:");
-            foreach (var result in filteredResults)
-            {
-                Console.WriteLine(
-                    $"Booking: Passenger '{result.Passenger.Username}' booked Flight #{result.Flight.Id} " +
-                    $"from {result.Flight.DepartureCountry} to {result.Flight.DestinationCountry} " +
-                    $"on {result.Flight.DepartureDate:yyyy-MM-dd} - Class: {result.Booking.FlightClass}");
-            }
+            filteredResults.ForEach(result => Console.WriteLine(
+                $"Booking: Passenger '{result.Passenger.Username}' booked Flight #{result.Flight.Id} " +
+                $"from {result.Flight.DepartureCountry} to {result.Flight.DestinationCountry} " +
+                $"on {result.Flight.DepartureDate:yyyy-MM-dd} - Class: {result.Booking.FlightClass}"));
         }
         else
         {
@@ -90,17 +60,12 @@ public class ManagerMenu
 
     public async Task UploadFlights()
     {
-        Console.Write("Enter the filename : ");
-        string fileName = Console.ReadLine();
+        string fileName = Reader.ReadStringInput("Enter the filename : ");
         try
         {
             List<string> results = await UploadFlightsService.Upload(fileName);
-
             Console.WriteLine("\nUpload Results:");
-            foreach (var message in results)
-            {
-                Console.WriteLine("- " + message);
-            }
+            results.ForEach(message => Console.WriteLine("- " + message));
         }
         catch (FileNotFoundException)
         {
@@ -112,5 +77,4 @@ public class ManagerMenu
             Console.WriteLine(e.Message);
         }
     }
-
 }

@@ -71,4 +71,13 @@ public static class Reader
 
         throw new FormatException("Invalid Flight Class Number");
     }
+
+    public static FlightClassEnum? ReadNullableFlightClass(string prompt)
+    {
+        Console.Write(prompt);
+        var input = Console.ReadLine();
+        return string.IsNullOrWhiteSpace(input)
+            ? null
+            : (FlightClassEnum)int.Parse(input);
+    }
 }
