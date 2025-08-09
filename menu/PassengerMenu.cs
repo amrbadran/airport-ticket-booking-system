@@ -20,34 +20,18 @@ public class PassengerMenu
                           """);
     }
 
+    /// <summary>
+    /// A Menu Function for Filtering The Flights (Searching Feature)
+    /// </summary>
     public void FilterFlights()
     {
-        Console.Write("Price (leave empty if not important): ");
-        string priceInput = Console.ReadLine();
-        double? price = string.IsNullOrWhiteSpace(priceInput) ? null : double.Parse(priceInput);
+        var price = Reader.ReadNullableDouble("Price (leave empty if not important): ");
+        var departCountry = Reader.ReadNullableString("Departure Country (leave empty if not important): ");
+        var arrivalCountry = Reader.ReadNullableString("Arrival Country (leave empty if not important): ");
+        var departAirportId = Reader.ReadNullableInt("Departure Airport ID (leave empty if not important): ");
+        var arrivalAirportId = Reader.ReadNullableInt("Arrival Airport ID (leave empty if not important): ");
+        var departDate = Reader.ReadNullableDate("Departure Date (yyyy-MM-dd) (leave empty if not important): ");
 
-        Console.Write("Departure Country (leave empty if not important): ");
-        string departCountryInput = Console.ReadLine();
-        string? departCountry = string.IsNullOrWhiteSpace(departCountryInput) ? null : departCountryInput;
-
-        Console.Write("Arrival Country (leave empty if not important): ");
-        string arrivalCountryInput = Console.ReadLine();
-        string? arrivalCountry = string.IsNullOrWhiteSpace(arrivalCountryInput) ? null : arrivalCountryInput;
-
-        Console.Write("Departure Airport ID (leave empty if not important): ");
-        string departAirportIdInput = Console.ReadLine();
-        int? departAirportId = string.IsNullOrWhiteSpace(departAirportIdInput) ? null : int.Parse(departAirportIdInput);
-
-        Console.Write("Arrival Airport ID (leave empty if not important): ");
-        string arrivalAirportIdInput = Console.ReadLine();
-        int? arrivalAirportId =
-            string.IsNullOrWhiteSpace(arrivalAirportIdInput) ? null : int.Parse(arrivalAirportIdInput);
-
-        Console.Write("Departure Date (yyyy-MM-dd) (leave empty if not important): ");
-        string departDateInput = Console.ReadLine();
-        DateTime? departDate = string.IsNullOrWhiteSpace(departDateInput)
-            ? null
-            : DateTime.ParseExact(departDateInput, "yyyy-MM-dd", null);
 
         var filteredFlights = FilterFlightService.FilterFlights(
             price,
@@ -57,14 +41,13 @@ public class PassengerMenu
             arrivalAirportId,
             departDate
         );
-        if (filteredFlights.Count() > 0)
+
+        if (filteredFlights.Any())
         {
             Console.WriteLine("Filtered Flights:");
-            foreach (var flight in filteredFlights)
-            {
-                Console.WriteLine(
-                    $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} on {flight.DepartureDate:yyyy-MM-dd}");
-            }
+            filteredFlights.ForEach(flight => Console.WriteLine(
+                $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} on {flight.DepartureDate:yyyy-MM-dd}")
+            );
         }
         else
         {
@@ -83,6 +66,10 @@ public class PassengerMenu
                 $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} on {flight.DepartureDate:yyyy-MM-dd}"));
     }
 
+    /// <summary>
+    /// Menu Function for showing all bookings related to passenger
+    /// </summary>
+    /// <param name="passengerId"></param>
     public void ShowYourBookings(int passengerId)
     {
         BookingPassengerService
@@ -91,59 +78,75 @@ public class PassengerMenu
             .ForEach(m => Console.WriteLine(m));
     }
 
+    /// <summary>
+    /// This is for Booking Flight based on passenger
+    /// No need to try..catch because we handle this in Program.Cs
+    /// </summary>
+    /// <param name="passengerId"></param>
     public async Task BookFlight(int passengerId)
     {
-        Console.Write("Flight Id: ");
-        int flightId = int.Parse(Console.ReadLine());
-        Flight? f = FilterFlightService.GetFlightById(flightId);
+        int flightId = Reader.ReadIntInput("Flight Id: ");
+        Flight? flight = FilterFlightService.GetFlightById(flightId);
 
-        if (f != null)
-        {
-            Console.WriteLine($"Price For Economy {f.Price}, Business {f.Price * 2}, First Class {f.Price * 3}");
-            Console.Write("Flight Class: (Economy 0, Business 1, First Class 2) ");
-            FlightClassEnum flightClass = (FlightClassEnum)int.Parse(Console.ReadLine());
-
-            await BookingService.BookFlight(passengerId, flightId, flightClass);
-        }
-        else
+        if (flight == null)
         {
             Console.WriteLine("No Flight With this id");
+            return;
         }
+
+        DisplayFlightPrices(flight);
+        FlightClassEnum flightClass =
+            Reader.ReadFlightClass("Flight Class: (Economy 0, Business 1, First Class 2) ");
+
+        await BookingService.BookFlight(passengerId, flightId, flightClass);
     }
 
+    /// <summary>
+    /// This is Menu Function that for cancelling a booking for a passenger
+    /// </summary>
+    /// <param name="passengerId"></param>
     public async Task CancelBooking(int passengerId)
     {
-        Console.Write("Flight Id: ");
-        int flightId = int.Parse(Console.ReadLine());
-        Flight? f = FilterFlightService.GetFlightById(flightId);
+        int flightId = Reader.ReadIntInput("Flight Id: ");
+        Flight? flight = FilterFlightService.GetFlightById(flightId);
 
-        if (f != null)
-        {
-            await BookingService.CancelBooking(passengerId, flightId);
-        }
-        else
+        if (flight == null)
         {
             Console.WriteLine("No Flight With this id");
+            return;
         }
+
+
+        await BookingService.CancelBooking(passengerId, flightId);
     }
 
+    /// <summary>
+    /// This is for modifing the booking for a passenger
+    /// </summary>
+    /// <param name="passengerId"></param>
     public async Task ModifyBooking(int passengerId)
     {
-        Console.Write("Flight Id (To Update): ");
-        int flightId = int.Parse(Console.ReadLine());
-        Flight? f = FilterFlightService.GetFlightById(flightId);
+        int flightId = Reader.ReadIntInput("Flight Id: ");
+        Flight? flight = FilterFlightService.GetFlightById(flightId);
 
-        if (f != null)
-        {
-            Console.WriteLine($"Price For Economy {f.Price}, Business {f.Price * 2}, First Class {f.Price * 3}");
-            Console.Write("Flight Class: (Economy 0, Business 1, First Class 2) ");
-            FlightClassEnum flightClass = (FlightClassEnum)int.Parse(Console.ReadLine());
-
-            await BookingService.ModifyBooking(passengerId, flightId, flightClass);
-        }
-        else
+        if (flight == null)
         {
             Console.WriteLine("No Flight With this id");
+            return;
         }
+
+        DisplayFlightPrices(flight);
+        FlightClassEnum flightClass =
+            Reader.ReadFlightClass("Flight Class: (Economy 0, Business 1, First Class 2) ");
+
+
+        await BookingService.ModifyBooking(passengerId, flightId, flightClass);
+    }
+
+    // Helper Methods
+    private void DisplayFlightPrices(Flight flight)
+    {
+        Console.WriteLine(
+            $"Price For Economy {flight.Price}, Business {flight.Price * 2}, First Class {flight.Price * 3}");
     }
 }
