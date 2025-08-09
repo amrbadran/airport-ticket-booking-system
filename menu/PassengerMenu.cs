@@ -10,13 +10,13 @@ public class PassengerMenu
     public void Welcome()
     {
         Console.WriteLine("""
-                            1.Filter Flights
-                            2.Show All Flights
-                            3.Show Your Booking
-                            4.Book Flight
+                            1. Filter Flights
+                            2. Show All Flights
+                            3. Show Your Booking
+                            4. Book Flight
                             5. Cancel Booking
                             6. Modify Booking
-                            7.Exit
+                            7. Exit
                           """);
     }
 
@@ -72,32 +72,23 @@ public class PassengerMenu
         }
     }
 
+    /// <summary>
+    /// A Menu function for showing all flights in the system
+    /// </summary>
     public void ShowAllFlights()
     {
-        var flights = FilterFlightService.GetAllFlights();
-        foreach (var flight in flights)
-        {
-            Console.WriteLine(
-                $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} on {flight.DepartureDate:yyyy-MM-dd}");
-        }
+        FilterFlightService
+            .GetAllFlights()
+            .ForEach(flight => Console.WriteLine(
+                $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} on {flight.DepartureDate:yyyy-MM-dd}"));
     }
 
     public void ShowYourBookings(int passengerId)
     {
-        var bookings = BookingService.GetAllBooking(passengerId);
-        var flights = FilterFlightService.GetAllFlights();
-        var bookingAndFlights = bookings.Join(flights,
-            b => b.FlightBooked
-            , f => f.Id,
-            (booking, flight) =>
-                $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} " +
-                $"on {flight.DepartureDate:yyyy-MM-dd} with class {booking.FlightClass} " +
-                $"Total Price:{(double)(booking.FlightClass + 1) * flight.Price}");
-
-        foreach (var bookingAndFlight in bookingAndFlights)
-        {
-            Console.WriteLine(bookingAndFlight);
-        }
+        BookingPassengerService
+            .GetBookingPassenger(passengerId)
+            .ToList()
+            .ForEach(m => Console.WriteLine(m));
     }
 
     public async Task BookFlight(int passengerId)

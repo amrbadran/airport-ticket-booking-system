@@ -10,20 +10,34 @@ public class AuthService
         { "admin", "admin" },
         { "admin1", "admin1234" }
     };
-
-    public bool LoginManager(string username, string password)
+    
+    /// <summary>
+    /// login function for managers
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns>if the manager exists return true othwerwise false</returns>
+    public bool LoginManager(string? username, string? password)
     {
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password)) return false;
         return managers
             .Count(m => m.Key == username && m.Value == password) > 0;
     }
 
-    public Passenger? LoginPassenger(string username, string password)
+    /// <summary>
+    /// login function for passengers
+    /// </summary>
+    /// <param name="username"></param>
+    /// <param name="password"></param>
+    /// <returns>if the passenger exists in the system return the object otherwise return null</returns>
+    public Passenger? LoginPassenger(string? username, string? password)
     {
+        if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password)) return null;
         var listOfPassengers = new ModelRepository<Passenger>(new Passenger())
             .GetAllItems().ToList();
         var matches = listOfPassengers
             .Where(p => p.Username == username && p.Password == password)
-            .Take(2)
+            .Take(1)
             .ToList();
 
         return matches.Count == 1 ? matches[0] : null;
