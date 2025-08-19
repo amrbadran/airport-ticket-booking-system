@@ -8,7 +8,7 @@ public class Airport : IModel
 {
     [Key]
     [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
-    public int Id { get; }
+    public int Id { get; init; }
     
     [Required]
     public string AirportName { get; set; }
