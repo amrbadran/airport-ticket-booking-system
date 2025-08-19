@@ -45,7 +45,7 @@ public class PassengerShould
     }
 
     [Fact]
-    public void AirportFromStringSuccess()
+    public void PassengerFromStringSuccess()
     {
         // Arrange
         var sut = _fixture.Build<Passenger>()
