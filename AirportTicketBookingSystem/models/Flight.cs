@@ -11,12 +11,13 @@ public class Flight : IModel
     [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
     public int Id { get; init; }
 
+    [Range(1, Double.MaxValue, ErrorMessage = "Price Should be positive")]
     public double Price { get; set; }
 
     public string DepartureCountry { get; set; }
 
     public string DestinationCountry { get; set; }
-
+    
     [TodayOrFuture(ErrorMessage = "Date Must Be in future")]
     public DateTime DepartureDate { get; set; }
 
@@ -50,7 +51,7 @@ public class Flight : IModel
             Price = double.Parse(items[1]),
             DepartureCountry = items[2],
             DestinationCountry = items[3],
-            DepartureDate = DateTime.ParseExact(items[4], "yyyy-MM-dd",null),
+            DepartureDate = DateTime.ParseExact(items[4], "yyyy-MM-dd", null),
             DepartureAirportId = int.Parse(items[5]),
             ArrivalAirportId = int.Parse(items[6])
         };

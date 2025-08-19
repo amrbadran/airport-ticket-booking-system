@@ -9,6 +9,10 @@
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.BookingShould.BookingCreateSuccess&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.BookingShould.BookingToStringSuccess&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.BookingShould.BookingFromStringSuccess&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.FlightShould.AirportCreateSuccess&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.FlightShould.FlightCreateSuccess&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.FlightShould.FlightToStringSuccess&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.FlightShould.FlightFromStringSuccess&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	
