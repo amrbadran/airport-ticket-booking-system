@@ -2,6 +2,10 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=131baf7c_002D0dc4_002D4615_002D8136_002D0133d702bfa1/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="UnitTest1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.AirportShould&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.PassengerShould.PassengerCreateSuccess&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.PassengerShould.AirportToStringSuccess&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.PassengerShould.PassengerToStringSuccess&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.modelsTests.PassengerShould.AirportFromStringSuccess&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

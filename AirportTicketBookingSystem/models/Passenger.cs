@@ -8,7 +8,7 @@ public class Passenger : IModel
 {
     [Key]
     [Range(1, int.MaxValue, ErrorMessage = "ID must be a positive integer.")]
-    public int Id { get; }
+    public int Id { get; init; }
 
     [StringLength(20, MinimumLength = 1, ErrorMessage = "Username must be within 1 and 20 chars")]
     public string Username { get; set; }

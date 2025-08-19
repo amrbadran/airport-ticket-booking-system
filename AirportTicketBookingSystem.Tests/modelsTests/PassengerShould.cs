@@ -1,41 +1,44 @@
 ﻿using airport_ticket_booking_system.models;
-using AutoFixture;
-using FluentAssertions;
 
 namespace AirportTicketBookingSystem.Tests.modelsTests;
-
-public class AirportShould
+using AutoFixture;
+using FluentAssertions;
+public class PassengerShould
 {
     private Fixture _fixture;
 
-    public AirportShould()
+    public PassengerShould()
     {
         _fixture = new Fixture();
     }
-
+    
     [Fact]
-    public void AirportCreateSuccess()
+    public void PassengerCreateSuccess()
     {
         // Arrange & Act 
-        var sut = _fixture.Build<Airport>()
+        var sut = _fixture.Build<Passenger>()
             .With(a => a.Id, new Random().Next(1, int.MaxValue))
             .Create();
 
         // Assert
-        sut.AirportName.Should().NotBeNull();
+        sut.Username.Should().NotBeNullOrEmpty();
+        sut.Username.Length.Should().BeInRange(1, 20);
+        sut.Password.Should().NotBeNullOrEmpty();
+        sut.Username.Length.Should().BeInRange(1, 20);
+
         sut.Id.Should().BeGreaterThan(0);
     }
 
     [Fact]
-    public void AirportToStringSuccess()
+    public void PassengerToStringSuccess()
     {
         // Arrange
-        var sut = _fixture.Build<Airport>()
+        var sut = _fixture.Build<Passenger>()
             .With(a => a.Id, new Random().Next(1, int.MaxValue))
             .Create();
 
         // Act
-        var expected = $"{sut.Id},{sut.AirportName}";
+        var expected = $"{sut.Id},{sut.Username},{sut.Password}";
 
         // Assert
         sut.ToString().Should().Be(expected);
@@ -45,10 +48,9 @@ public class AirportShould
     public void AirportFromStringSuccess()
     {
         // Arrange
-        var sut = _fixture.Build<Airport>()
+        var sut = _fixture.Build<Passenger>()
             .With(a => a.Id, new Random().Next(1, int.MaxValue))
             .Create();
-
         var line = sut.ToString();
 
         // Act
@@ -57,4 +59,5 @@ public class AirportShould
         // Assert
         sut.Should().Be(expected);
     }
+
 }
