@@ -1,4 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using airport_ticket_booking_system.data.handlers;
+using airport_ticket_booking_system.data.repositories;
+using airport_ticket_booking_system.models;
 using airport_ticket_booking_system.models.DTO;
 using airport_ticket_booking_system.models.enums;
 using airport_ticket_booking_system.services.filter;
@@ -60,7 +63,9 @@ public class ManagerMenu
         string fileName = Reader.ReadStringInput("Enter the filename : ");
         try
         {
-            List<string> results = await UploadFlightsService.Upload(fileName);
+            var service = new UploadFlightsService(new ModelRepository<Flight>(new Flight())
+                , new CsvFileService(fileName, new Flight()));
+            List<string> results = await service.Upload(fileName);
             Console.WriteLine("\nUpload Results:");
             results.ForEach(message => Console.WriteLine("- " + message));
         }

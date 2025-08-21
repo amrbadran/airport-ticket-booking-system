@@ -1,13 +1,22 @@
 using airport_ticket_booking_system.data.handlers;
+using airport_ticket_booking_system.data.interfaces;
 using airport_ticket_booking_system.data.repositories;
 using airport_ticket_booking_system.models;
 using airport_ticket_booking_system.utils;
 
 namespace airport_ticket_booking_system.services.uploading;
 
-public static class UploadFlightsService
+public class UploadFlightsService
 {
-    private static readonly ModelRepository<Flight> FlightRepo = new ModelRepository<Flight>(new Flight());
+    private readonly IModelRepository<Flight> _flightRepo;
+    private readonly IFileHandler _fileHandler;
+
+    public UploadFlightsService(IModelRepository<Flight> flightRepo, IFileHandler fileHandler)
+    {
+        _flightRepo = flightRepo;
+        _fileHandler = fileHandler;
+    }
+
 
     /// <summary>
     /// This Function responsable for uploading the flights from external file to our system
@@ -15,15 +24,15 @@ public static class UploadFlightsService
     /// <param name="filename"></param>
     /// <returns></returns>
     /// <exception cref="FileNotFoundException"></exception>
-    public static async Task<List<string>> Upload(string filename)
+    public async Task<List<string>> Upload(string filename)
     {
         string path = Path.Combine(Constants.ProjectRoot, "files", filename);
 
-        if (!File.Exists(path))
+        if (!_fileHandler.FileExists(path))
             throw new FileNotFoundException($"File not found at path: {path}");
 
-        var newFlights = new ModelRepository<Flight>(new Flight(), filename).GetAllItems().ToList();
-        var existingFlights = FlightRepo.GetAllItems().ToList();
+        var newFlights = _fileHandler.GetAll().Select(f => (Flight)f).ToList();
+        var existingFlights = _flightRepo.GetAllItems().ToList();
 
         List<string> resultMessages = new();
 
@@ -40,7 +49,7 @@ public static class UploadFlightsService
                 $"Added Flight ID {flight.Id}: {flight.DepartureCountry} to {flight.DestinationCountry}");
         }
 
-        await FlightRepo.SaveAll(existingFlights);
+        await _flightRepo.SaveAll(existingFlights);
 
         return resultMessages;
     }

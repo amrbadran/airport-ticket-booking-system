@@ -16,7 +16,11 @@ public class CsvFileService : IFileHandler
         Model = model;
         Header = File.ReadLines(Filepath).Take(1).ToList()[0];
     }
-    
+
+    public CsvFileService()
+    {
+    }
+
     /// <summary>
     /// This Function For Getting all lines from a file
     /// May Throws An NotFoundFileException
@@ -38,5 +42,10 @@ public class CsvFileService : IFileHandler
     {
         var csvLines = items.Select(entity => entity.ToString());
         await File.WriteAllLinesAsync(Filepath, Enumerable.Repeat(Header, 1).Concat(csvLines));
+    }
+
+    public bool FileExists(string path)
+    {
+        return File.Exists(path);
     }
 }

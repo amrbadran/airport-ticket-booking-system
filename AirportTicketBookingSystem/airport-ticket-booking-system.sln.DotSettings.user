@@ -16,6 +16,8 @@
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.AuthServiceShould.LoginPassengerTest&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.AuthServiceShould.LoginPassengerTestFailure&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.AuthServiceShould&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.UploadFlightsServiceShould.UploadFlightsTestUpdated&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.UploadFlightsServiceShould.UploadFlightsTestNotUpdated&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

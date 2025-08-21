@@ -7,4 +7,6 @@ public interface IFileHandler
     IEnumerable<IModel> GetAll();
 
     Task WriteAllAsync(IEnumerable<IModel> items);
+    
+    bool FileExists(string path);
 }
