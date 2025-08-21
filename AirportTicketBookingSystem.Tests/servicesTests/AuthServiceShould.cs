@@ -2,7 +2,6 @@
 using airport_ticket_booking_system.models;
 using airport_ticket_booking_system.services.auth;
 using AutoFixture;
-using AutoFixture.AutoMoq;
 using FluentAssertions;
 using Moq;
 
