@@ -10,6 +10,12 @@ public class AuthService
         { "admin", "admin" },
         { "admin1", "admin1234" }
     };
+
+    private IModelRepository<Passenger> _modelRepository;
+    public AuthService(IModelRepository<Passenger> modelRepository)
+    {
+        _modelRepository = modelRepository;
+    }
     
     /// <summary>
     /// login function for managers
@@ -33,8 +39,8 @@ public class AuthService
     public Passenger? LoginPassenger(string? username, string? password)
     {
         if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password)) return null;
-        var listOfPassengers = new ModelRepository<Passenger>(new Passenger())
-            .GetAllItems().ToList();
+        var listOfPassengers =  _modelRepository
+            .GetAllItems().ToList(); 
         var matches = listOfPassengers
             .Where(p => p.Username == username && p.Password == password)
             .Take(1)

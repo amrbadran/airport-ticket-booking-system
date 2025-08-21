@@ -4,7 +4,7 @@ using airport_ticket_booking_system.utils;
 
 namespace airport_ticket_booking_system.data.repositories;
 
-public class ModelRepository<T>
+public class ModelRepository<T> : IModelRepository<T>
 {
     private string _path;
 

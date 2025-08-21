@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using airport_ticket_booking_system.data.repositories;
 using airport_ticket_booking_system.menu;
 using airport_ticket_booking_system.models;
 using airport_ticket_booking_system.services.auth;
@@ -63,8 +64,10 @@ void PrintWelcome()
     string? password = Console.ReadLine();
 
     // Apply Username & Password to AuthService
-    var loginManager = new AuthService().LoginManager(username, password);
-    var loginPassenger = new AuthService().LoginPassenger(username, password);
+    var loginManager =
+        new AuthService(new ModelRepository<Passenger>(new Passenger())).LoginManager(username, password);
+    var loginPassenger =
+        new AuthService(new ModelRepository<Passenger>(new Passenger())).LoginPassenger(username, password);
 
     return (loginManager, loginPassenger);
 }
