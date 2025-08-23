@@ -1,3 +1,4 @@
+using airport_ticket_booking_system.data.repositories;
 using airport_ticket_booking_system.models;
 using airport_ticket_booking_system.models.DTO;
 using airport_ticket_booking_system.models.enums;
@@ -92,8 +93,10 @@ public class PassengerMenu
         DisplayFlightPrices(flight);
         FlightClassEnum flightClass =
             Reader.ReadFlightClass("Flight Class: (Economy 0, Business 1, First Class 2) ");
-
-        await BookingService.BookFlight(passengerId, flightId, flightClass);
+        
+        var service = new BookingService(new ModelRepository<Booking>(new Booking()));
+        
+        await service.BookFlight(passengerId, flightId, flightClass);
     }
 
     /// <summary>
@@ -111,8 +114,9 @@ public class PassengerMenu
             return;
         }
 
+        var service = new BookingService(new ModelRepository<Booking>(new Booking()));
 
-        await BookingService.CancelBooking(passengerId, flightId);
+        await service.CancelBooking(passengerId, flightId);
     }
 
     /// <summary>
@@ -133,9 +137,10 @@ public class PassengerMenu
         DisplayFlightPrices(flight);
         FlightClassEnum flightClass =
             Reader.ReadFlightClass("Flight Class: (Economy 0, Business 1, First Class 2) ");
+        
+        var service = new BookingService(new ModelRepository<Booking>(new Booking()));
 
-
-        await BookingService.ModifyBooking(passengerId, flightId, flightClass);
+        await service.ModifyBooking(passengerId, flightId, flightClass);
     }
 
     // Helper Methods

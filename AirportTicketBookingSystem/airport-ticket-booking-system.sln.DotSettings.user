@@ -18,6 +18,10 @@
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.AuthServiceShould&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.UploadFlightsServiceShould.UploadFlightsTestUpdated&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.UploadFlightsServiceShould.UploadFlightsTestNotUpdated&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.bookingTests.BookingServiceShould.BookFlightTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.bookingTests.BookingServiceShould.ModifyBookingFlightTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.bookingTests.BookingServiceShould.CancelBookingFlightTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::99543F35-A536-405C-9DF2-65A1863065A7::net9.0::AirportTicketBookingSystem.Tests.servicesTests.bookingTests.BookingServiceShould.GetAllBookingTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	

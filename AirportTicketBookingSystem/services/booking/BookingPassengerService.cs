@@ -1,3 +1,4 @@
+using airport_ticket_booking_system.data.repositories;
 using airport_ticket_booking_system.models;
 using airport_ticket_booking_system.services.filter;
 
@@ -10,7 +11,8 @@ public static class BookingPassengerService
 {
     public static IEnumerable<string> GetBookingPassenger(int passengerId)
     {
-        var bookings = BookingService.GetAllBooking(passengerId);
+        var service = new BookingService(new ModelRepository<Booking>(new Booking()));
+        var bookings = service.GetAllBooking(passengerId);
         var flights = FilterFlightService.GetAllFlights();
         return bookings.Join(flights,
             b => b.FlightBooked
