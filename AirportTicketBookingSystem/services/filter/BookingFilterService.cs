@@ -5,12 +5,24 @@ using airport_ticket_booking_system.models.enums;
 
 namespace airport_ticket_booking_system.services.filter;
 
-public static class BookingFilterService
+public class BookingFilterService
 {
-    private static ModelRepository<Booking> BookingRepo = new(new Booking());
-    private static ModelRepository<Flight> FlightRepo = new(new Flight());
-    private static ModelRepository<Airport> AirportRepo = new(new Airport());
-    private static ModelRepository<Passenger> PassengerRepo = new(new Passenger());
+    private IModelRepository<Booking> _bookingRepo;
+    private IModelRepository<Flight> _flightRepo;
+    private IModelRepository<Airport> _airportRepo;
+    private IModelRepository<Passenger> _passengerRepo;
+
+    public BookingFilterService(IModelRepository<Booking> bookingRepo,
+        IModelRepository<Flight> flightRepo,
+        IModelRepository<Airport> airportRepo,
+        IModelRepository<Passenger> passengerRepo
+    )
+    {
+        _bookingRepo = bookingRepo;
+        _flightRepo = flightRepo;
+        _airportRepo = airportRepo;
+        _passengerRepo = passengerRepo;
+    }
 
     /// <summary>
     /// This Function used for filter all things in system and it used by manager
@@ -21,7 +33,7 @@ public static class BookingFilterService
     /// <param name="passengerId"></param>
     /// <param name="flightClass"></param>
     /// <returns></returns>
-    public static List<FilteredResult> FilterJoinedData(
+    public List<FilteredResult> FilterJoinedData(
         int? flightId,
         FlightFilter? flightFilter,
         int? passengerId,
@@ -33,7 +45,7 @@ public static class BookingFilterService
         // Filter All Model Repos then Join Them
         List<Func<Flight, bool>> predicatesFlight = flightFilter.GetPredicates();
         var flights =
-            FlightRepo
+            _flightRepo
                 .GetAllItems()
                 .Where(f => !flightId.HasValue || f.Id == flightId.Value);
         foreach (var predicate in predicatesFlight)
@@ -42,15 +54,15 @@ public static class BookingFilterService
         }
 
         var bookings =
-            BookingRepo
+            _bookingRepo
                 .GetAllItems()
                 .Where(b => !flightClass.HasValue || b.FlightClass == flightClass.Value);
 
         var passengers =
-            PassengerRepo
+            _passengerRepo
                 .GetAllItems()
                 .Where(p => !passengerId.HasValue || p.Id == passengerId.Value);
-        var airports = AirportRepo.GetAllItems();
+        var airports = _airportRepo.GetAllItems();
 
         // Join The Filtered Data
         var filtered = (from booking in bookings

@@ -30,7 +30,13 @@ public class ManagerMenu
         var flightClass = Reader.ReadNullableFlightClass(
             "Flight Class (Economy (0), Business (1), First (2)) (leave empty if not important): ");
 
-        var filteredResults = BookingFilterService.FilterJoinedData(
+        var service = new BookingFilterService(
+            new ModelRepository<Booking>(new Booking()),
+            new ModelRepository<Flight>(new Flight()),
+            new ModelRepository<Airport>(new Airport()),
+            new ModelRepository<Passenger>(new Passenger())
+            );
+        var filteredResults = service.FilterJoinedData(
             flightId,
             new FlightFilter(
                 Price: Reader.ReadNullableDouble("Price (leave empty if not important): "),
