@@ -27,7 +27,9 @@ public class PassengerMenu
     /// </summary>
     public void FilterFlights()
     {
-        var filteredFlights = FilterFlightService.FilterFlights(
+        
+        var filterFlightService = new FilterFlightService(new ModelRepository<Flight>(new Flight()));
+        var filteredFlights = filterFlightService.FilterFlights(
             new FlightFilter(
                 Price: Reader.ReadNullableDouble("Price (leave empty if not important): "),
                 DepartCountry: Reader.ReadNullableString("Departure Country (leave empty if not important): "),
@@ -56,7 +58,9 @@ public class PassengerMenu
     /// </summary>
     public void ShowAllFlights()
     {
-        FilterFlightService
+        
+        var filterFlightService = new FilterFlightService(new ModelRepository<Flight>(new Flight()));
+        filterFlightService
             .GetAllFlights()
             .ForEach(flight => Console.WriteLine(
                 $"Flight #{flight.Id} - {flight.DepartureCountry} to {flight.DestinationCountry} on {flight.DepartureDate:yyyy-MM-dd}"));
@@ -82,7 +86,8 @@ public class PassengerMenu
     public async Task BookFlight(int passengerId)
     {
         int flightId = Reader.ReadIntInput("Flight Id: ");
-        Flight? flight = FilterFlightService.GetFlightById(flightId);
+        var filterFlightService = new FilterFlightService(new ModelRepository<Flight>(new Flight()));
+        Flight? flight = filterFlightService.GetFlightById(flightId);
 
         if (flight == null)
         {
@@ -106,7 +111,8 @@ public class PassengerMenu
     public async Task CancelBooking(int passengerId)
     {
         int flightId = Reader.ReadIntInput("Flight Id: ");
-        Flight? flight = FilterFlightService.GetFlightById(flightId);
+        var filterFlightService = new FilterFlightService(new ModelRepository<Flight>(new Flight()));
+        Flight? flight = filterFlightService.GetFlightById(flightId);
 
         if (flight == null)
         {
@@ -126,7 +132,9 @@ public class PassengerMenu
     public async Task ModifyBooking(int passengerId)
     {
         int flightId = Reader.ReadIntInput("Flight Id: ");
-        Flight? flight = FilterFlightService.GetFlightById(flightId);
+        
+        var filterFlightService = new FilterFlightService(new ModelRepository<Flight>(new Flight()));
+        Flight? flight = filterFlightService.GetFlightById(flightId);
 
         if (flight == null)
         {

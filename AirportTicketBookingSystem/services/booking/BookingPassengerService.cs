@@ -13,7 +13,8 @@ public static class BookingPassengerService
     {
         var service = new BookingService(new ModelRepository<Booking>(new Booking()));
         var bookings = service.GetAllBooking(passengerId);
-        var flights = FilterFlightService.GetAllFlights();
+        var filterFlightService = new FilterFlightService(new ModelRepository<Flight>(new Flight()));
+        var flights = filterFlightService.GetAllFlights();
         return bookings.Join(flights,
             b => b.FlightBooked
             , f => f.Id,

@@ -5,17 +5,21 @@ using airport_ticket_booking_system.models.DTO;
 
 namespace airport_ticket_booking_system.services.filter;
 
-public static class FilterFlightService
+public class FilterFlightService
 {
-    private static ModelRepository<Flight> _flightsRepo = new(new Flight());
+    private IModelRepository<Flight> _flightsRepo;
 
+    public FilterFlightService(IModelRepository<Flight> flightsRepo)
+    {
+        _flightsRepo = flightsRepo;
+    }
     /// <summary>
     /// This Filter Flights using list of predicates if the filter property isn't null, so we want its predicate
     /// i wroted this before using query syntax and it was not readable, this is much better.
     /// </summary>
     /// <param name="filter"></param>
     /// <returns></returns>
-    public static List<Flight> FilterFlights(FlightFilter filter)
+    public List<Flight> FilterFlights(FlightFilter filter)
     {
         var query = _flightsRepo.GetAllItems();
 
@@ -27,14 +31,14 @@ public static class FilterFlightService
         return query.ToList();
     }
 
-    public static List<Flight> GetAllFlights()
+    public List<Flight> GetAllFlights()
     {
         return _flightsRepo
             .GetAllItems()
             .ToList();
     }
 
-    public static Flight? GetFlightById(int id)
+    public Flight? GetFlightById(int id)
     {
         return _flightsRepo
             .GetAllItems()
